@@ -23,7 +23,9 @@ const rewards = (o) => {
 
     const parentElement = sTools.getElement(o.parentElement);
     const statusDisplay = sTools.getElement(o.statusDisplay);
+
     let layerElement;
+    let layerExtraCss = '';
 
     const goodJob = () => {
 
@@ -40,7 +42,11 @@ const rewards = (o) => {
             });
 
             element.style.height = pElement.offsetHeight+'px';
-            element.className = 'reward-layer layerfadein';
+            //element.className = 'reward-layer layerfadein';
+            element.classList.add('reward-layer');
+            element.classList.add('layerfadein');
+            if (layerExtraCss)
+                element.classList.add(layerExtraCss);
 
             pElement.appendChild(element);
         });
@@ -85,12 +91,14 @@ const rewards = (o) => {
     }
 
     const success = async () => {
+        layerExtraCss = 'finish';
         await rewardAnim('all-success', 'zoomin', {
             hideAfterFinish: false
         });
     }
 
     const finished = async () => {
+        layerExtraCss = 'finish';
         await rewardAnim('all-finished', 'zoomin', {
             hideAfterFinish: false
         });
