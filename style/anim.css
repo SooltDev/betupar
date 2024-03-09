@@ -76,3 +76,33 @@
         transform: scale(1) translate(-50%, -50%);
     }
 }
+
+.zoomout{
+    animation: zoomout .35s ease-in; 
+}
+@keyframes zoomout {
+    0% {
+        transform: scale(5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.zoomout{
+    animation: zoominout .75s ease-in; 
+}
+@keyframes zoominout {
+    0%{
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

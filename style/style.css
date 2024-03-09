@@ -51,6 +51,7 @@
     background-color: #dfdcd8;
     padding: 10px;
     padding-bottom: 0;
+    position: relative;
 }
 
 .matchbox{
@@ -145,6 +146,8 @@
     user-select: none;
     -webkit-user-drag: none;
     pointer-events: none;
+    width: 100%;
+    height: 100%;
 }
 
 .panel {
@@ -187,8 +190,8 @@
 }
 
 .btn-status{
-    
-    background-color: #655e53;
+    display: flex;
+    background-color: #dfdcd8;
     width: 72%;
 }
 
@@ -216,4 +219,24 @@
 
 .letter-to-figure{
     background-image: url('./svg/letter-to-figure.svg');
+}
+
+.stars-ct{
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    z-index: 100;
+}
+
+.stars-ct .stars-inner{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.stars-inner .reward-star{
+    background-image: url('./img/reward.png');
+    background-size: 100%;
+    width: 30px;
+    height: 30px;
 }

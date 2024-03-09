@@ -1,5 +1,13 @@
 const randomize = (a, b) => Math.floor(Math.random() * (b -a )) + a;
 
+const delay = async(ms) => {
+    return new Promise( (resolve, reject) => {
+        setTimeout( () => {
+            resolve('success');
+        }, ms);
+    });
+}
+
 /**
  * Átalakít egy stringet úgy, hogy nagybetűvel kezdődjön, az összes többi kisbetűs lesz
  * (Főleg szavakra alkalmazandó)
@@ -104,6 +112,10 @@ const createElement = (o) => {
     if (o.dataset)
         Object.assign(el.dataset, o.dataset);
 
+    if (o.src){
+        el.src = o.src;
+    }
+
     Object.assign(el.style, o.style);
 
     if (o.parentElement){
@@ -149,5 +161,5 @@ const removeAccents = str =>
 export {
     randomize, createElement, getElement, removeAllChild, 
     shuffleArray, emptyArray, deepAssign, capitalize, isObject,
-    removeAccents
+    removeAccents, delay
 };

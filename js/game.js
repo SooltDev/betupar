@@ -110,6 +110,9 @@ const matchLine = function(options){
     const countWrong = () => {
         return fromBoxes.reduce( (total, card) => card.isWrong() ? ++total : total, 0 );
     }
+
+
+
     const clearDOM = () => {
         for (const name in Elements){
             Elements[name].remove();
@@ -168,15 +171,25 @@ const matchLine = function(options){
 
         for (let i = 0; i < letterNumber; i++){
 
-            let upperOrLetter = sTools.randomize(0, 2);
             let randomLetter = '';
-            let randomChars = upperOrLetter ? upperCaseLetters : lowerCaseLetters;
 
             do {
-                randomLetter = randomChars[sTools.randomize(0, randomChars.length)];
-            } while (letters.includes(randomLetter.toLowerCase()))
+                randomLetter = lowerCaseLetters[sTools.randomize(0, lowerCaseLetters.length)];
+            } while (letters.includes(randomLetter))
 
             letters.push(randomLetter);
+        }
+
+        let upperNumber = sTools.randomize(1, letters.length);
+
+        for (let i = 0; i < upperNumber; i++){
+            let rand;
+
+            do{
+                rand = sTools.randomize(0, letters.length);
+            } while ( !isLower(letters[rand]) )
+            
+            letters[rand] = letters[rand].toUpperCase();
         }
 
         return letters;
@@ -188,15 +201,18 @@ const matchLine = function(options){
         return sTools.removeAccents(randIMG);
     }
 
+    /**
+     * 
+     */
     const linkEvent = async () => {
-        if (isPerfect())
-            REWARD.success();
-        else if (isComplete()){
-            REWARD.finished();
-            console.log(countWrong());
-        }
-        else
+
+        if (isComplete()){
+            await (isPerfect() ? REWARD.success : REWARD.finished)();
+            await sTools.delay(500);
+            REWARD.addStars(letterNumber - countWrong());
+        } else {
             REWARD.correct();
+        }
     }
 
     const newGame = () => {
@@ -212,6 +228,9 @@ const matchLine = function(options){
 
         if (REWARD && REWARD.layer)
             REWARD.layer.remove();
+        
+        if (Elements.statusDisplay.firstElementChild)
+            Elements.statusDisplay.firstElementChild.remove();
 
         letters = randomLetters();
         //console.log(from);
@@ -276,7 +295,8 @@ const matchLine = function(options){
         }
 
         REWARD = rewards({
-            parentElement: Elements.playground
+            parentElement: Elements.playground,
+            statusDisplay: Elements.statusDisplay
         });
     }
 

@@ -22,13 +22,14 @@ const setHeightToHeight = (element1, element2) => {
 const rewards = (o) => {
 
     const parentElement = sTools.getElement(o.parentElement);
+    const statusDisplay = sTools.getElement(o.statusDisplay);
     let layerElement;
 
     const goodJob = () => {
 
     }
 
-    const layer = () => {
+    const layer = (pElement = parentElement) => {
         return new Promise(function(resolve, reject){
 
             const element = document.createElement('div');
@@ -38,10 +39,10 @@ const rewards = (o) => {
                 resolve(element);
             });
 
-            element.style.height = parentElement.offsetHeight+'px';
+            element.style.height = pElement.offsetHeight+'px';
             element.className = 'reward-layer layerfadein';
 
-            parentElement.appendChild(element);
+            pElement.appendChild(element);
         });
     }
 
@@ -51,32 +52,28 @@ const rewards = (o) => {
 
         const element = document.createElement('div');
 
-        const parent = await layer();
+        const parent = await layer(
+            !options.hideAfterFinish ? parentElement.firstElementChild : parentElement
+        );
+
         parent.appendChild(element);
 
-        element.addEventListener('animationend', () => {
+        return new Promise( (resolve, reject) => {
 
-            if (!options.hideAfterFinish){
-                parent.addEventListener('click', () => {
+            element.addEventListener('animationend', () => {
+                if (!options.hideAfterFinish){
+                    resolve(element);
+                }
+            });
+    
+            element.className = 'reward ' + cssName + ' ' + animName;
+
+            if (options.hideAfterFinish)
+                setTimeout(() => {
                     parent.remove();
-                });
-                parent.style.transition = 'height .2s ease-in';
-                setHeightToHeight(parent, parentElement.firstElementChild);
-            }
+                    resolve();
+                }, 1600);
         });
-
-        element.className = 'reward ' + cssName + ' ' + animName;
-        
-        if (options.hideAfterFinish)
-            setTimeout(() => {
-                parent.remove();
-                
-            }, 1600);
-        else {
-
-        }
-
-        return {parent, element};
     }
 
     const correct = () => {
@@ -87,14 +84,14 @@ const rewards = (o) => {
         rewardAnim('line-incorrect', 'zoomin');
     }
 
-    const success = () => {
-        rewardAnim('all-success', 'zoomin', {
+    const success = async () => {
+        await rewardAnim('all-success', 'zoomin', {
             hideAfterFinish: false
         });
     }
 
-    const finished = () => {
-        rewardAnim('all-finished', 'zoomin', {
+    const finished = async () => {
+        await rewardAnim('all-finished', 'zoomin', {
             hideAfterFinish: false
         });
     }
@@ -105,7 +102,32 @@ const rewards = (o) => {
 
     const addStars = (starNumber) => {
         const {starsCt, starsInner} = elementsFromTempalte(starsTpl);
-        
+        statusDisplay.appendChild(starsCt);
+
+        const stars = [];
+
+        console.log(starsCt);
+
+        for (let i = 0; i < starNumber; i++){
+            const star = sTools.createElement({
+                tagName: 'span',
+                className: 'reward-star'
+            });
+
+            starsInner.appendChild(star);
+
+            stars.push(star);
+        }
+
+        stars.reverse().slice(1).every( (star, i) => {
+            console.log(star);
+            stars[i].addEventListener("animationend", () => {
+                star.classList.add('zoomout');
+            });
+            return true;
+        });
+
+        stars[0].classList.add('zoomout');
     }
 
     return {
