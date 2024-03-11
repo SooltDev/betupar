@@ -54,7 +54,9 @@ class Matchbox extends EventManager{
     */
         if (this.#playground.playground){
             if (getComputedStyle(this.#playground.playground).position == "relative"){
-                const rect = this.#playground.playground.getBoundingClientRect();
+                const rect = this.#playground.palygroundInner.getBoundingClientRect();
+
+                //console.log(this.#playground);
 
                 this.#xOffset = rect.left;
                 this.#yOffset = rect.top;
@@ -65,11 +67,11 @@ class Matchbox extends EventManager{
         // Beigazí az egér pozicióját attól függően, hogy merre húzzuk a vonalat.
         
         if (this.#location == 'start'){
-            this.#xOffset += 10;
-            this.#yOffset -= 5;
+            this.#xOffset += 5;
+            this.#yOffset += 0;
         } else if (this.#location == 'target'){
-            this.#xOffset += -10;
-            this.#yOffset += -5;
+            this.#xOffset += -5;
+            this.#yOffset += 0;
         }
     }
 

@@ -6,8 +6,8 @@ import { letterCSVToJSON, loadLetterCSV } from "./assets/csvtojson.js";
 
 
 const template = `
-    <div class="playground" data-eval="dom" data-domname="element">
-        <div class="palyground-inner">
+    <div class="playground gamemenu" data-eval="dom" data-domname="element">
+        <div class="palyground-inner gamemenu">
             <img width="320" src="./style/svg/logo.svg"></img>
         </div>
 
@@ -19,8 +19,7 @@ const template = `
                 </div>
                 <div class="btn btn-game-mode icon-btn letter-to-figure" id="letter-to-figure-btn" data-eval="dom">
                 </div>
-                <div class="btn btn-game-mode icon-btn options" id="options-btn" data-eval="dom">
-                </div>
+                
             </div>    
         </div>
 

@@ -8,7 +8,7 @@ import { rewards } from "./assets/rewards.js";
 
 const matchboxTemplate = `
     <div class="playground" data-eval="dom">
-        <div class="palyground-inner">
+        <div class="palyground-inner" data-eval="dom">
             <div class="matchbox">
                 <div id="match-from" data-eval="dom"></div>
             </div>
@@ -205,13 +205,13 @@ const matchLine = function(options){
      * 
      */
     const linkEvent = async () => {
+        
+        await REWARD.correct();
 
         if (isComplete()){
             await (isPerfect() ? REWARD.success : REWARD.finished)();
-            await sTools.delay(500);
+            await sTools.delay(600);
             REWARD.addStars(letterNumber - countWrong());
-        } else {
-            REWARD.correct();
         }
     }
 

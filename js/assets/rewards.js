@@ -1,6 +1,6 @@
 import * as sTools from "./stools.js";
 import { SElement, createSElement } from "./selement.js";
-import { evalTemplate, elementsFromTempalte} from "./evaltemplate.js";
+import { elementsFromTempalte } from "./evaltemplate.js";
 
 
 const starsTpl = `
@@ -82,8 +82,8 @@ const rewards = (o) => {
         });
     }
 
-    const correct = () => {
-        rewardAnim('line-correct', 'zoomin');
+    const correct = async () => {
+        await rewardAnim('line-correct', 'zoomin');
     }
 
     const incorrect =() => {
@@ -130,12 +130,12 @@ const rewards = (o) => {
         stars.reverse().slice(1).every( (star, i) => {
             console.log(star);
             stars[i].addEventListener("animationend", () => {
-                star.classList.add('zoomout');
+                star.classList.add('zoominout');
             });
             return true;
         });
 
-        stars[0].classList.add('zoomout');
+        stars[0].classList.add('zoominout');
     }
 
     return {
