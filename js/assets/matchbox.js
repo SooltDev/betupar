@@ -6,7 +6,7 @@ const vowels = 'a,á,e,é,i,í,o,ó,ö,ő,u,ú,ü,ű'.split(',');
 const isVowle = (letter) => vowels.includes(letter.toLowerCase());
 
 class Matchbox extends EventManager{
-    static #types = ['letter', 'vioce', 'figure'];
+    static #types = ['letter', 'voice', 'figure'];
     #type = 'letter';  // letter, voice, figure
     #letter = null;    // char 
     #vowel = false;    // true, ha magánhangzó
@@ -25,6 +25,7 @@ class Matchbox extends EventManager{
     #yOffset = 0;
     #wrong = 0;        // Az elrontott összekötések száma
     #imgPath = undefined;
+    #voicePath = undefined;
 
     constructor(o){
         super();
@@ -37,6 +38,11 @@ class Matchbox extends EventManager{
 
         if (this.type == 'figure')
             this.#imgPath = o.imgPath;
+
+        if (this.type == 'voice'){
+            console.log('VoiceType o: ', o);
+            this.#voicePath = o.voicePath;
+        }
 
         this.#playground = o.playground || null;
 
@@ -79,7 +85,7 @@ class Matchbox extends EventManager{
         this.element = document.createElement('div');
         this.element.className = 'matchcard in-game';
 
-        console.log(this.makeFuncName());
+        console.info(this.makeFuncName());
         
         this[this.makeFuncName()]();
 
@@ -183,7 +189,20 @@ class Matchbox extends EventManager{
     }
 
     makeVoice(){
+        this.typeElement = createElement({
+            tagName: 'div',
+            className: 'voice',
+            parentElement: this.element
+        });
 
+        const audio = new Audio(this.#voicePath.normalize('NFD'));
+
+        this.typeElement.addEventListener('click', () => {
+            console.log(this.type, this.#voicePath);
+            audio.play();
+        });
+
+        console.log(this);
     }
 
     makeFigure(){

@@ -36,15 +36,13 @@ const gameSetup = (options) => {
     };
 
     const newGame = (opt) => {
-        /*
-        const app = matchLine({
-            parentElement: opt.parentElement
-        });
-        */
+        
         const app = GAME;
 
         app.render();
         
+        console.log(opt);
+
         app.gameOptions({
             letterNumber: opt.letterNumber || 4,
             from: {
@@ -75,13 +73,22 @@ const gameSetup = (options) => {
 
         clearDOM();
 
-        const { letterToLetterBtn, letterToFigureBtn } = Elements = elementsFromTempalte(template);
+        const { letterToLetterBtn, letterToFigureBtn, voiceToLetterBtn } = Elements = elementsFromTempalte(template);
 
         letterToLetterBtn.addEventListener('click', () => {
             newGame({
                 parentElement,
                 letterNumber: 4,
                 fromType: 'letter',
+                toType: 'letter'
+            });
+        });
+
+        voiceToLetterBtn.addEventListener('click', () => {
+            newGame({
+                parentElement,
+                letterNumber: 4,
+                fromType: 'voice',
                 toType: 'letter'
             });
         });

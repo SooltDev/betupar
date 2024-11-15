@@ -35,6 +35,9 @@ const upperCaseLetters = lowerCaseLetters.map(
 const IMAGE_PATH = 'data/images/';
 const getIMGPath = (img, ext = 'png') => IMAGE_PATH + img + '.' + ext;
 
+const VOICE_PATH = 'data/voices/';
+const getVoicePath = (voice, ext = 'wav') => VOICE_PATH + voice.toLowerCase() + '.' + ext;
+
 const wowels = 'a,á,e,é,i,í,o,ó,ö,ő,u,ú,ü,ű'.split(',');
 
 const isWowle = (letter) => wowels.includes(letter);
@@ -241,16 +244,17 @@ const matchLine = function(options){
                 type: from.type,
                 letter: letter,
                 location: from.location,
-                playground: Elements
+                playground: Elements,
+                voicePath: gameMode() == 'voiceToLetter' ? getVoicePath(letter) : undefined 
             });
             //- elkészítjül a társának is az új példányát
-            //console.log(to, gameMode());
+            console.log("GameMode: ", gameMode(), getVoicePath(letter));
             const toBox = new Matchbox({
                 type: to.type,
                 letter: gameMode() == 'letterToLetter' ? reverseChar(letter) : letter,
                 location: to.location,
                 playground: Elements,
-                imgPath: gameMode() == 'letterToFigure' ? getIMGPath(randomImageByLetter(letter)) : undefined 
+                imgPath: gameMode() == 'letterToFigure' ? getIMGPath(randomImageByLetter(letter)) : undefined,
             });
 
             fromBox.on('link', linkEvent);
